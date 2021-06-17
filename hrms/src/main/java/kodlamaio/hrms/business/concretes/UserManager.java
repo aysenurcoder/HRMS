@@ -1,11 +1,18 @@
 package kodlamaio.hrms.business.concretes;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kodlamaio.hrms.business.abstracts.UserService;
-import kodlamaio.hrms.dataAccess.abstracts.UserDao;
-import kodlamaio.hrms.entities.concretes.User;
+import kodlamaio.hrms.business.constants.Messages;
+import kodlamaio.hrms.core.abstracts.UserDao;
+import kodlamaio.hrms.core.concretes.User;
+import kodlamaio.hrms.core.utilities.results.DataResult;
+import kodlamaio.hrms.core.utilities.results.Result;
+import kodlamaio.hrms.core.utilities.results.SuccessDataResult;
+import kodlamaio.hrms.core.utilities.results.SuccessResult;
 
 @Service
 public class UserManager implements UserService {
@@ -27,6 +34,23 @@ public class UserManager implements UserService {
 	public User findByEmailAdressAndPassword(String email, String password) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Result add(User user) {
+		this.userDao.save(user);
+		return new SuccessResult(Messages.userAdded);
+	}
+
+	@Override
+	public DataResult<List<User>> getAll() {
+		return new SuccessDataResult<List<User>>(this.userDao.findAll(), Messages.usersListed);
+	}
+
+	@Override
+	public Result delete(User user) {
+		this.userDao.delete(user);
+		return new SuccessResult(Messages.userDeleted);
 	}
 
 }
